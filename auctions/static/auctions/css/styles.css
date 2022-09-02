@@ -1,0 +1,124 @@
+body {
+    padding-top: 60px;
+    height: 100%;
+    background: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.navbar-brand {
+    font-family: "Six Caps", sans-serif;
+    letter-spacing: 0.1rem;
+    font-size: 30px;
+    font-weight: 400;
+    padding: 10px;
+}
+
+.nav-item {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+
+/* COVER */
+
+.cover-container {
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    bottom: 0;
+    right: 0;
+    height: 1800px;
+}
+
+.jumbotron-container {
+    position: absolute;
+    display: block;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    bottom: 0;
+    height: 370px;
+    color: white;
+    padding: 60px 10vw 10px 10vw;
+}
+
+.overlay {
+    background: linear-gradient(to bottom, #3498db00 0%, white 35%);
+}
+
+.cover-image {
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    z-index: -2;
+    right: 0;
+}
+
+.cvr {
+    width: 100%;
+}
+
+.row-25 {
+    position: absolute;
+    top: 0;
+}
+
+.container {
+    position: relative;
+    padding-top: 370px;
+}
+
+.slogan {
+    color: wheat;
+}
+
+
+/* ITEM CARD */
+
+.card {
+    color: Black;
+    box-shadow: 0 1px 10px grey;
+}
+
+.badge {
+    color: white;
+}
+
+.image-container {
+    position: relative;
+    overflow: hidden;
+    height: 15rem;
+    border: 5px solid white;
+    border-radius: 8px 8px 0 0;
+    background-color: black;
+}
+
+.image {
+    opacity: 1;
+    transition: 0.5s ease;
+}
+
+.bid-btn {
+    transition: 0.5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.image-container:hover .image {
+    opacity: 0.5;
+    transition: transform 1s;
+    transform: scale(1.1);
+    filter: blur(1px);
+}
+
+.image-container:hover .bid-btn {
+    opacity: 1;
+}
