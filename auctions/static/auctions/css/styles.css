@@ -39,13 +39,18 @@ body {
     top: 0;
     z-index: 1;
     bottom: 0;
-    height: 370px;
+    height: 300px;
+    width: 100%;
     color: white;
     padding: 60px 10vw 10px 10vw;
 }
 
 .overlay {
     background: linear-gradient(to bottom, #3498db00 0%, white 35%);
+}
+
+.auction-item {
+    padding-top: 80px;
 }
 
 .cover-image {
@@ -68,7 +73,7 @@ body {
 
 .container {
     position: relative;
-    padding-top: 370px;
+    padding-top: 300px;
 }
 
 .slogan {
@@ -97,8 +102,11 @@ body {
 }
 
 .image {
+    width: 100%;
+    height: 100%;
     opacity: 1;
     transition: 0.5s ease;
+    object-fit: cover;
 }
 
 .bid-btn {
@@ -121,4 +129,22 @@ body {
 
 .image-container:hover .bid-btn {
     opacity: 1;
+}
+
+.watchlist {
+    height: 10px;
+    width: 10px;
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+    right: 25px;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transform: scale(1.5);
+}
+
+.watchlist:hover {
+    color: red;
+    transform: scale(1.6);
 }
