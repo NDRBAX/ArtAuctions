@@ -9,4 +9,13 @@ class ListingAdmin(admin.ModelAdmin):
     filter_horizontal = ()
     list_per_page = 25
 
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ("user", "listing", "comment", "created_at")
+    list_filter = ("user", "listing", "created_at")
+    search_fields = ("user", "listing", "comment")
+    ordering = ("user", "listing", "created_at")
+    filter_horizontal = ()
+    list_per_page = 25
+
 admin.site.register(Listing, ListingAdmin)
+admin.site.register(Comment)
