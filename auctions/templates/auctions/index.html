@@ -4,126 +4,105 @@
 
 {% block body %}
     <div class="row justify-content-center">
+        {% for auction in listings %}
         <div class="col-md-4 col-lg-3 col-xl-4 mb-4">
             <div class="card text-center" style="max-width: 40rem; ">
+                <span style="cursor:pointer" class="watchlist watchlist-index"><i class="fa-solid fa-heart"></i></span>
                 <div class="image-container">
-                    <img src="{% static 'auctions/assets/t1.jpg' %}"class="card-img-top image" alt="...">
+                    
+                    <img src="{{ auction.avatar }}"class="card-img-top image" alt="{{auction.title}}">
                     <div class="bid-btn">
-                        <a href="#" class=" btn btn-primary ">Place Bid</a>
+                        <a href="{% url 'show_auction' auction.id %}" class=" btn btn-primary">Place Bid</a>
                     </div>
                 </div>
-                <div class="card-body">
-                    <h5 class="card-title">Cada cosa en su sitio 6  <span class="badge badge-warning"><small class="text-muted">Created 3 mins ago</small></span></h5>
-                    <p class="card-text"><strong>Price:</strong> 1205£</p>
-                </div>
+                <a class="btn" data-toggle="modal" data-target="#show{{auction.id}}">
+
+                    <div class="card-body">
+                        
+
+                        <h5 style="overflow: hidden; display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;" class="card-title">{{ auction.title }} - {{ auction.artist}}</h5>
+                        <span class="badge badge-warning"><small class="text-muted">{{ auction.created_at}}</small></span>
+
+                        <p style="overflow: hidden; display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;" class="card-title" class="card-text">{{ auction.description }}</p>
+                        
+                        <p class="card-text"><strong>Price:</strong> $ {{ auction.price }}</p>
+                        
+                    </div>
+
+                </a>
             </div>
         </div>
-    
-        <div class="col-md-4 col-lg-3 col-xl-4 mb-4">
-            <div class="card text-center" style="max-width: 40rem; ">
-                <div class="image-container">
-                    <img src="{% static 'auctions/assets/t2.jpg' %}"class="card-img-top image" alt="...">
-                    <div class="bid-btn">
-                        <a href="#" class=" btn btn-primary ">Place Bid</a>
+
+        <div class="modal fade" id="show{{auction.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalCenterTitle"><strong>{{ auction.title }} - {{ auction.artist}}</strong></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            
+                            <div class="col-md-6">
+                                <span style="cursor:pointer" class="watchlist watchlist-modal"><i class="fa-solid fa-heart"></i></span>
+                                <img src="{{ auction.avatar }}" class="modal-image" alt="{{auction.title}}">
+                            </div>
+                            <div class="col-md-6 ml-auto">
+
+                                <table class="table table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">Artist</th>
+                                            <td>{{ auction.artist }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Title</th>
+                                            <td>{{ auction.title }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Year</th>
+                                            <td>{{ auction.year }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Size</th>
+                                            <td>{{ auction.size }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Category</th>
+                                            <td>{{ auction.category }}</td>
+                                        <tr>
+                                            <th scope="row">Price</th>
+                                            <td>${{ auction.price }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Description</th>
+                                            <td>{{ auction.description }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Created</th>
+                                            <td>{{ auction.created_at }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Seller</th>
+                                            <td>{{ auction.seller }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <h5 class="card-title">La mujer de Almanzora  <span class="badge badge-warning"><small class="text-muted">Created 3 mins ago</small></span></h5>
-                    <p class="card-text"><strong>Price:</strong> 3000£</p>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <a href="auctions/{{auction.id}}" class=" btn btn-primary">Place Bid</a>
                 </div>
+              </div>
             </div>
         </div>
-    
-        <div class="col-md-4 col-lg-3 col-xl-4 mb-4">
-            <div class="card text-center" style="max-width: 40rem; ">
-                <div class="image-container">
-                    <img src="{% static 'auctions/assets/t3.jpg' %}"class="card-img-top image" alt="...">
-                    <div class="bid-btn">
-                        <a href="#" class=" btn btn-primary ">Place Bid</a>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Retour de David Vainqueur de Goliath  <span class="badge badge-warning"><small class="text-muted">Created 3 mins ago</small></span></h5>
-                    <p class="card-text"><strong>Price:</strong> 250£</p>
-                </div>
-            </div>
-        </div>
-    
-        <div class="col-md-4 col-lg-3 col-xl-4 mb-4">
-            <div class="card text-center" style="max-width: 40rem; ">
-                <div class="image-container">
-                    <img src="{% static 'auctions/assets/t4.jpg' %}"class="card-img-top image" alt="...">
-                    <div class="bid-btn">
-                        <a href="#" class=" btn btn-primary ">Place Bid</a>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">The Restaurateur bord de côte en Bretagne  <span class="badge badge-warning"><small class="text-muted">Created 3 mins ago</small></span></h5>
-                    <p class="card-text"><strong>Price:</strong> 2500£</p>
-                </div>
-            </div>
-        </div>
-    
-        <div class="col-md-4 col-lg-3 col-xl-4 mb-4">
-            <div class="card text-center" style="max-width: 40rem; ">
-                <div class="image-container">
-                    <img src="{% static 'auctions/assets/t5.jpg' %}"class="card-img-top image" alt="...">
-                    <div class="bid-btn">
-                        <a href="#" class=" btn btn-primary ">Place Bid</a>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Colpir Sense Nafrar I  <span class="badge badge-warning"><small class="text-muted">Created 3 mins ago</small></span></h5>
-                    <p class="card-text"><strong>Price:</strong> 5400£</p>
-                </div>
-            </div>
-        </div>
-    
-        <div class="col-md-4 col-lg-3 col-xl-4 mb-4">
-            <div class="card text-center" style="max-width: 40rem; ">
-                <div class="image-container">
-                    <img src="{% static 'auctions/assets/t6.jpg' %}"class="card-img-top image" alt="...">
-                    <div class="bid-btn">
-                        <a href="#" class=" btn btn-primary ">Place Bid</a>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Le Cours - La Fayette à Toulouse - Matin d'Hiver  <span class="badge badge-warning"><small class="text-muted">Created 3 mins ago</small></span></h5>
-                    <p class="card-text"><strong>Price:</strong> 1500£</p>
-                </div>
-            </div>
-        </div>
-    
-        <div class="col-md-4 col-lg-3 col-xl-4 mb-4">
-            <div class="card text-center" style="max-width: 40rem; ">
-                <div class="image-container">
-                    <img src="{% static 'auctions/assets/t7.jpg' %}"class="card-img-top image" alt="...">
-                    <div class="bid-btn">
-                        <a href="#" class=" btn btn-primary ">Place Bid</a>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Serenidad y agonía  <span class="badge badge-warning"><small class="text-muted">Created 3 mins ago</small></span></h5>
-                    <p class="card-text"><strong>Price:</strong> 600£</p>
-                </div>
-            </div>
-        </div>
-    
-        <div class="col-md-4 col-lg-3 col-xl-4 mb-4">
-            <div class="card text-center" style="max-width: 40rem; ">
-                <div class="image-container">
-                    <img src="{% static 'auctions/assets/t8.jpg' %}"class="card-img-top image" alt="...">
-                    <div class="bid-btn">
-                        <a href="#" class=" btn btn-primary ">Place Bid</a>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Albricias  <span class="badge badge-warning"><small class="text-muted">Created 3 mins ago</small></span></h5>
-                    <p class="card-text"><strong>Price:</strong> 500£</p>
-                </div>
-            </div>
-        </div>
-    
-    
+        {% endfor %}
     </div>
 {% endblock %}

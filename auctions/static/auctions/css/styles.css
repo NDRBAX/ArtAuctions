@@ -35,11 +35,11 @@ body {
 .jumbotron-container {
     position: absolute;
     display: block;
-    left: 0;
+    left: 5;
     top: 0;
     z-index: 1;
     bottom: 0;
-    height: 300px;
+    height: 200px;
     width: 100%;
     color: white;
     padding: 60px 10vw 10px 10vw;
@@ -50,7 +50,7 @@ body {
 }
 
 .auction-item {
-    padding-top: 80px;
+    position: relative;
 }
 
 .cover-image {
@@ -85,7 +85,7 @@ body {
 
 .card {
     color: Black;
-    box-shadow: 0 1px 10px grey;
+    box-shadow: 0 10px 10px grey;
 }
 
 .badge {
@@ -131,13 +131,29 @@ body {
     opacity: 1;
 }
 
+
+/* WATCHLIST */
+
+.watchlist-index {
+    top: 10px;
+    right: 25px;
+}
+
+.watchlist-modal {
+    top: 20px;
+    right: 50px;
+}
+
+.watchlist-auction {
+    top: 15px;
+    right: 30px;
+}
+
 .watchlist {
     height: 10px;
     width: 10px;
     position: absolute;
     z-index: 1;
-    top: 10px;
-    right: 25px;
     align-items: center;
     justify-content: center;
     color: white;
@@ -147,4 +163,64 @@ body {
 .watchlist:hover {
     color: red;
     transform: scale(1.6);
+    text-shadow: 1px 1px 10px white;
+}
+
+.modal-image {
+    width: 100%;
+    height: auto;
+    border: 10px solid #ddd;
+}
+
+.auction-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* COMMENTS */
+
+.clock,
+.posted_at,
+.comment {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.nickname {
+    font-size: 13px;
+    font-weight: 800;
+    margin-left: 6px;
+    color: rgb(0, 123, 255);
+}
+
+.clock {
+    margin-right: 5px;
+}
+
+.posted_at {
+    color: #828386;
+}
+
+.comment {
+    color: #56575b;
+}
+
+.comment-box {
+    width: 100%;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 10px 10px #aaaaaa;
+}
+
+.comment-form {
+    box-shadow: 0 10px 10px #aaaaaa;
+    background-color: rgba(221, 221, 221, 0.5);
+    border-radius: 4px;
+    padding: 30px;
+}
+
+.comment-textarea {
+    border-radius: 4px;
 }

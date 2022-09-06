@@ -1,0 +1,116 @@
+{% extends 'auctions/layout.html' %}
+{% load static %}
+{% block title %}
+    {{ auction.title }}
+{% endblock %}
+
+{% block body %}
+<div class="row auction-item justify-content-center">
+
+    <div class="card mb-3" style="max-width: 100%;">
+        <div class="row no-gutters">
+          <div class="col-md-6">
+            <span style="cursor:pointer" class="watchlist watchlist-auction"><i class="fa-solid fa-heart"></i></span>
+            <img class="auction-image" src="{{ auction.avatar }}" alt="{{ auction.title }}">
+          </div>
+          <div class="col-md-6">
+            <div class="card-body">
+              <table class="table table-borderless">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Artist</th>
+                            <td>{{ auction.artist }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Title</th>
+                            <td>{{ auction.title }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Description</th>
+                            <td>{{ auction.description }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Year</th>
+                            <td>{{ auction.year }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Size</th>
+                            <td>{{ auction.size }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Category</th>
+                            <td>{{ auction.category }}</td>
+                        <tr>
+                            <th scope="row">Price</th>
+                            <td>${{ auction.price }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Created</th>
+                            <td>{{ auction.created_at }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Seller</th>
+                            <td>{{ auction.seller }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+          </div>
+          
+        </div>
+
+        
+    </div>
+
+</div>
+
+<div style="clear:both; height: 50px;"></div>
+
+<div class="row">
+
+    <div class="col-12 col-md-5 mt-4 mb-4">
+        
+        <p>Do you have a similar work for sale? <a href="{% url 'create_listing' %}">Sell it here</a></p> <br>
+        <a href="https://www.google.com/search?q={{ auction.artist }}">Learn more about {{ auction.artist }}</a> <br>
+        <a href="https://www.google.com/search?q={{ auction.artist }} {{ auction.title }}">Learn more about {{ auction.title }} by {{ auction.artist }}</a>
+
+        <form class="comment-form mt-4" action="{% url 'new_comment' auction.id %}" method="POST">
+            {% csrf_token %}
+            {{ comment_form}}
+            <button type="submit"  class="btn btn-primary btn-block">Post Comment</button>
+        </form>
+
+    </div>
+
+    <div class="col-12 col-md-7 pb-4">
+
+        <h1 class="display-5">Comments</h1>
+        {% for comment in comments %}
+
+        <div class="d-flex justify-content-center py-2">
+            <div class="comment-box py-2 px-2"> <span class="comment">{{ comment.comment }}</span>
+                <div class="d-flex justify-content-between py-1 pt-2">
+                    <div><span class="nickname">{{ comment.user }}</span></div>
+                    <div><span class="clock"><i class="fa-solid fa-clock"></i></span><span class="posted_at">{{ comment.created_at }}</span></div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No comments yet...  </p>
+        <img src="{% static 'auctions/assets/empty.png' %}" alt="empty" width="100%">
+
+        {% endfor %}
+    </div>
+</div>
+
+
+   
+
+
+
+    
+{% endblock %}
+
+{% block footer %}
+    <a href="/auctions">Back to auctions</a>
+{% endblock %}

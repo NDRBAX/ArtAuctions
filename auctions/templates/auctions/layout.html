@@ -4,12 +4,15 @@
 <html lang="en">
     <head>
         <title>{% block title %}Auctions{% endblock %}</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://kit.fontawesome.com/de7107e192.js" crossorigin="anonymous"></script>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Caveat&family=Sacramento&family=Sigmar+One&family=Six+Caps&display=swap" rel="stylesheet">
         <link href="{% static 'auctions/css/styles.css' %}" rel="stylesheet">
     </head>
+    
     <body>
 
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top py-0" style="background-color:rgb(20,31,37)">
@@ -83,39 +86,58 @@
       
             {% block body %}
             {% endblock %}
-   
-
+        
             <div class="row cover-container overlay"></div>
 
-    <div class="row cover-image">
-        <div id="carouselExampleInterval" class="carousel slide carousel-fade" data-ride="carousel">
-            <div class="carousel-inner">
-              <div class="carousel-item active" data-interval="300000">
-                <img class="cvr"src="{% static 'auctions/assets/t8.jpg' %}" class="d-block w-100" alt="...">
-              </div>
-              <div class="carousel-item" data-interval="2000">
-                <img class="cvr"src="{% static 'auctions/assets/t7.jpg' %}" class="d-block w-100" alt="...">
-              </div>
-              <div class="carousel-item" data-interval="20000">
-                <img class="cvr"src="{% static 'auctions/assets/t1.jpg' %}" class="d-block w-100" alt="...">
-              </div>
-              <div class="carousel-item" data-interval="200000">
-                <img class="cvr"src="{% static 'auctions/assets/cover-5.jpg' %}" class="d-block w-100" alt="...">
-              </div>
+            <div class="row cover-image">
+                <div id="carouselExampleInterval" class="carousel slide carousel-fade" data-ride="carousel">
+                    <div class="carousel-inner">
+
+                    <div class="carousel-item active" data-interval="30000">
+                        <img class="cvr"src="{% static 'auctions/assets/cover-1.jpg' %}" class="d-block w-100" alt="...">
+                    </div>
+
+                    <div class="carousel-item " data-interval="30000">
+                        <img class="cvr"src="{% static 'auctions/assets/cover-2.jpg' %}" class="d-block w-100" alt="...">
+                    </div>
+
+                    <div class="carousel-item " data-interval="30000">
+                        <img class="cvr"src="{% static 'auctions/assets/cover-3.jpg' %}" class="d-block w-100" alt="...">
+                    </div>
+
+                    <div class="carousel-item" data-interval="30000">
+                        <img class="cvr"src="{% static 'auctions/assets/cover-4.jpg' %}" class="d-block w-100" alt="...">
+                    </div>
+                    
+                    <div class="carousel-item" data-interval="30000">
+                        <img class="cvr"src="{% static 'auctions/assets/cover-5.jpg' %}" class="d-block w-100" alt="...">
+                    </div>
+                    
+                    <div class="carousel-item" data-interval="30000">
+                        <img class="cvr"src="{% static 'auctions/assets/cover-6.jpg' %}" class="d-block w-100" alt="...">
+                    </div>
+
+                    <div class="carousel-item" data-interval="30000">
+                        <img class="cvr"src="{% static 'auctions/assets/cover-7.jpg' %}" class="d-block w-100" alt="...">
+                    </div>
+
+                    <div class="carousel-item" data-interval="30000">
+                        <img class="cvr"src="{% static 'auctions/assets/cover-8.jpg' %}" class="d-block w-100" alt="...">
+                    </div>
+                    
+                    </div>
+                </div>
             </div>
-          </div>
-    </div>
 
-    <div class="row jumbotron-container justify-content-center">
-        <div class=" jumbotron-fluid text-center" >
-            <h1 class="display-5">Discover hundreds of paintings</h1>
-            <hr class="my-4" style="background:#fff">
-            <p> 789,900 artists and 15,140,400 auction prices, 1,008,800 artworks listed for the past 12 months, from 6,400 auction houses around the world.</p>
-            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+            <div class="row jumbotron-container justify-content-center">
+                <div class=" jumbotron-fluid text-center" >
+                    <h1 class="display-5">{{ cover_title }}</h1>
+                    <hr class="my-4" style="background:#fff">
+                    <p  style="overflow: hidden; display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;">{{ cover_description }}</p>
+                </div>
+            </div>
         </div>
-    </div>
-
-        </div>
+        
 
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
