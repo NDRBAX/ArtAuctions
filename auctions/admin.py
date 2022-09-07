@@ -17,5 +17,18 @@ class CommentAdmin(admin.ModelAdmin):
     filter_horizontal = ()
     list_per_page = 25
 
+class BidAdmin(admin.ModelAdmin):
+    list_display = ("listing", "bidder", "bid", "created_at")
+    list_filter = ("listing", "bidder", "created_at")
+    search_fields = ("listing", "bidder", "bid")
+    ordering = ("listing", "bidder", "created_at")
+    filter_horizontal = ()
+    list_per_page = 25
+
+
+
+
+admin.site.register(User)
 admin.site.register(Listing, ListingAdmin)
-admin.site.register(Comment)
+admin.site.register(Comment, CommentAdmin)
+admin.site.register(Bid, BidAdmin)
