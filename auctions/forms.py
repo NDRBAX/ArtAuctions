@@ -44,13 +44,6 @@ class ListingForm(forms.Form):
             "placeholder": "Image"
         })
     )
-    price = forms.DecimalField(
-        label="",
-        widget=forms.NumberInput(attrs={
-            "class": "form-control form-group",
-            "placeholder": "Price"
-        })
-    )
     open_price = forms.DecimalField(
         label="",
         widget=forms.NumberInput(attrs={
@@ -74,5 +67,14 @@ class CommentForm(forms.Form):
             "class": "form-control form-group comment-textarea",
             "placeholder": "Leave a comment",
             "rows": 5
+        })
+    )
+
+class BidForm(forms.Form):
+    bid = forms.DecimalField(
+        label="",
+        widget=forms.NumberInput(attrs={
+            "class": "form-control form-group",
+            "placeholder": "Bid", "name": "bid"
         })
     )
