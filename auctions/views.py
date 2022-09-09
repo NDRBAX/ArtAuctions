@@ -4,21 +4,30 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib import messages
-from django.shortcuts import get_object_or_404
-
-
+from django.shortcuts import redirect
+from django.utils import timezone
 
 from .models import *
 from .forms import *
 
 
 def index(request):
+    if request.user.is_authenticated:
+        user_watchlist = request.user.watchlist.all().count()
+        print(user_watchlist)
+        if user_watchlist > 0:
+            watchlist = request.user.watchlist.all()
+        else:
+            watchlist = None
+    else:
+        watchlist = None
+
     return render(request, "auctions/index.html", {
         "listings": Listing.objects.all(),
+        "watchlist": watchlist,
         "cover_title" : "Discover hundreds of paintings",
         "cover_description" : " 789,900 artists and 15,140,400 auction prices, 1,008,800 artworks listed for the past 12 months, from 6,400 auction houses around the world."
     })
-
 
 def login_view(request):
     if request.method == "POST":
@@ -45,11 +54,9 @@ def login_view(request):
             "cover_description": "Create an account or login to your existing account to unlock the full potential of our platform.\n If you don't have an account, please register."
         })
 
-
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
-
 
 def register(request):
     if request.method == "POST":
@@ -85,8 +92,7 @@ def register(request):
             "cover_description": "Create an account or login to your existing account to unlock the full potential of our platform.\n If you don't have an account, please register."
         })
 
-
-# Create Listing
+# Create Listing Form 
 def create_listing(request):
     if request.user.is_authenticated:
         return render(request, "auctions/create_listing.html", {
@@ -106,9 +112,6 @@ def create_new(request):
         if form.is_valid():
             new_auction = Listing(seller = request.user, **form.cleaned_data)
             new_auction.save()
-            open_price = new_auction.open_price
-            bid = Bid(bidder = request.user, listing = new_auction, price = open_price)
-            bid.save()
             return HttpResponseRedirect(reverse("index"))
         else:
             return render(request, "auctions/create_listing.html", {
@@ -123,27 +126,42 @@ def create_new(request):
 # Show auction 
 def show_auction(request, id):
     auction = Listing.objects.get(pk=id)
+
     if auction.status:
-        highest_bid = Bid.objects.filter(listing = auction).order_by("-bid").first()
-        if highest_bid:
-            highest_bid = highest_bid.bid
-            highest_bidder = Bid.objects.filter(listing = auction).order_by("-bid").first().bidder
+        if auction.bid_count > 0:
+            highest_bid = Bid.objects.filter(listing = auction).order_by("-bid").first()
+            if highest_bid:
+                highest_bid = highest_bid.bid
+                highest_bidder = Bid.objects.filter(listing = auction).order_by("-bid").first().bidder
+            else:
+                highest_bid = auction.open_price
+                highest_bidder = None
         else:
             highest_bid = auction.open_price
             highest_bidder = None
     else:
-        highest_bid = auction.price
-        highest_bidder = Bid.objects.filter(listing = auction).order_by("-bid").first().bidder
+        if auction.bid_count > 0:
+            highest_bid = auction.price
+            highest_bidder = Bid.objects.filter(listing = auction).order_by("-bid").first().bidder
+        else:
+            highest_bid = auction.open_price
+            highest_bidder = None
+
+    if request.user.is_authenticated:
+        watchlist = request.user.watchlist.all()
+    else:
+        watchlist = None
     return render(request, "auctions/auction.html", {
         "auction": auction,
         "buyer": auction.buyer,
         "bid": highest_bid,
         "bidder": highest_bidder,
-        "comments": Comment.objects.filter(listing = auction),
+        "comments": Comment.objects.filter(listing = auction).order_by("-created_at"),
         "cover_title": auction.title,
         "cover_description": auction.description,
         "comment_form": CommentForm(),
         "bid_form": BidForm(),
+        "watchlist":watchlist
     })
 
 
@@ -167,7 +185,7 @@ def new_comment(request, id):
             "cover_description": "Create an account or login to your existing account to unlock the full potential of our platform. If you don't have an account, please register."
         })
 
-
+# Post bid
 def bid(request, id):
     if request.user.is_authenticated:
         form = BidForm(request.POST)
@@ -217,20 +235,63 @@ def close_auction(request, id):
         auction = Listing.objects.get(pk=id)
         if request.user == auction.seller:
             auction.status = False
-            auction.price = Bid.objects.filter(listing = auction).order_by("-bid").first().bid
-            auction.buyer = Bid.objects.filter(listing = auction).order_by("-bid").first().bidder
-            auction.updated_at = Bid.objects.filter(listing = auction).order_by("-bid").first().created_at
+            # if no bids, set price to open price
+            if auction.bid_count == 0:
+                auction.price = auction.open_price
+                auction.buyer = None
+                auction.updated_at = timezone.now()
+            else:
+                auction.price = Bid.objects.filter(listing = auction).order_by("-bid").first().bid
+                auction.buyer = Bid.objects.filter(listing = auction).order_by("-bid").first().bidder
+                auction.updated_at = Bid.objects.filter(listing = auction).order_by("-bid").first().created_at
+
             auction.save()
             messages.success(request, "Auction closed successfully")
             return HttpResponseRedirect(reverse("show_auction", kwargs={
                 "id" : id
                 }))
 
-
+# Watchlist
 def watchlist(request):
     if request.user.is_authenticated:
+        
         return render(request, "auctions/watchlist.html", {
-            "watchlist": User.objects.get(pk=request.user.id).watchlist.all(),
+            "watchlist": request.user.watchlist.all(),
             "cover_title": "Your watchlist",
             "cover_description": "Here you can find all the auctions you're watching. You can add or remove auctions from your watchlist by clicking on the watchlist button on the auction page."
+        })
+    else:
+        return render(request, "auctions/login.html", {
+            "cover_title": "To view your watchlist you need to login",
+            "cover_description": "Create an account or login to your existing account to unlock the full potential of our platform. If you don't have an account, please register."
+        })
+
+def edit_watchlist(request, id):
+    if request.user.is_authenticated:
+        auction = Listing.objects.get(pk=id)
+        user = request.user
+        watchlist = user.watchlist.all()
+        total = watchlist.count()
+        print(total)
+        if auction in watchlist:
+            request.user.watchlist.remove(auction)
+            
+            user.save()
+            auction.is_it_in_watchlist = False
+            auction.save()
+            return redirect(request.META['HTTP_REFERER'],{
+                "watchlist": watchlist,
+            })
+        else:
+            request.user.watchlist.add(auction)
+            user.save()
+            auction.is_it_in_watchlist = True
+            auction.save()          
+            return redirect(request.META['HTTP_REFERER'], {
+                "watchlist": watchlist,
+            })
+    else:
+        return render(request, "auctions/login.html", {
+            "cover_title": "To add an auction to your watchlist you need to login",
+            "cover_description": "Create an account or login to your existing account to unlock the full potential of our platform. If you don't have an account, please register."
         })
