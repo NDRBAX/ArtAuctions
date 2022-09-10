@@ -11,20 +11,28 @@ from .models import *
 from .forms import *
 
 
+
 def index(request):
+ 
     if request.user.is_authenticated:
         user_watchlist = request.user.watchlist.all().count()
-        print(user_watchlist)
         if user_watchlist > 0:
             watchlist = request.user.watchlist.all()
+            total = watchlist.count()
         else:
             watchlist = None
+            total = 0 
+        # if not bid is made, the starting bid is the current price
+        
+                
     else:
         watchlist = None
+        total = None 
 
     return render(request, "auctions/index.html", {
         "listings": Listing.objects.all(),
         "watchlist": watchlist,
+        "total": total,
         "cover_title" : "Discover hundreds of paintings",
         "cover_description" : " 789,900 artists and 15,140,400 auction prices, 1,008,800 artworks listed for the past 12 months, from 6,400 auction houses around the world."
     })
@@ -94,14 +102,24 @@ def register(request):
 
 # Create Listing Form 
 def create_listing(request):
+
     if request.user.is_authenticated:
+        user_watchlist = request.user.watchlist.all().count()
+        if user_watchlist > 0:
+            watchlist = request.user.watchlist.all()
+            total = watchlist.count()
         return render(request, "auctions/create_listing.html", {
             "new_auction": ListingForm(),
+            "total": total,
             "cover_title": "Sell your painting",
             "cover_description": "Please fill in the form below to sell your painting. Be sure to include all the details. If you add a picture, it will be displayed on the auction page and by the way it will be easier for the buyers to find your painting."
         })
     else:
+ 
+        watchlist = None
+        total = 0 
         return render(request, "auctions/login.html", {
+            "total": total,
             "cover_title": "To create a listing you need to login",
             "cover_description": "Create an account or login to your existing account to unlock the full potential of our platform. If you don't have an account, please register."
         })
@@ -149,8 +167,10 @@ def show_auction(request, id):
 
     if request.user.is_authenticated:
         watchlist = request.user.watchlist.all()
+        total = watchlist.count()
     else:
         watchlist = None
+        total = None
     return render(request, "auctions/auction.html", {
         "auction": auction,
         "buyer": auction.buyer,
@@ -161,7 +181,8 @@ def show_auction(request, id):
         "cover_description": auction.description,
         "comment_form": CommentForm(),
         "bid_form": BidForm(),
-        "watchlist":watchlist
+        "watchlist":watchlist,
+        "total":total
     })
 
 
@@ -205,10 +226,9 @@ def bid(request, id):
                     new_bid.bidder, new_bid.bid = request.user, float(bid)
                     new_bid.save()
                     auction.bid_count += 1
+                    auction.price = float(bid)
                     auction.save()
-                    print(new_bid.bidder)
-                    print(new_bid.bid)
-                    print(new_bid)
+
                     messages.success(request, "Bid added successfully")
                     
                     return HttpResponseRedirect(reverse("show_auction", kwargs={
@@ -253,10 +273,15 @@ def close_auction(request, id):
 
 # Watchlist
 def watchlist(request):
+
     if request.user.is_authenticated:
-        
+        watchlist = request.user.watchlist.all()
+
+        total = watchlist.count()
         return render(request, "auctions/watchlist.html", {
-            "watchlist": request.user.watchlist.all(),
+            "watchlist": watchlist,
+            "total": total,
+
             "cover_title": "Your watchlist",
             "cover_description": "Here you can find all the auctions you're watching. You can add or remove auctions from your watchlist by clicking on the watchlist button on the auction page."
         })
@@ -277,16 +302,14 @@ def edit_watchlist(request, id):
             request.user.watchlist.remove(auction)
             
             user.save()
-            auction.is_it_in_watchlist = False
-            auction.save()
+    
             return redirect(request.META['HTTP_REFERER'],{
                 "watchlist": watchlist,
             })
         else:
             request.user.watchlist.add(auction)
             user.save()
-            auction.is_it_in_watchlist = True
-            auction.save()          
+              
             return redirect(request.META['HTTP_REFERER'], {
                 "watchlist": watchlist,
             })
