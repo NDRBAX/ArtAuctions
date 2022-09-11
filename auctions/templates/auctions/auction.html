@@ -10,11 +10,102 @@
     <div class="card mb-3" style="max-width: 100%;">
         <div class="row no-gutters">
           <div class="col-md-6">
-            <span style="cursor:pointer" class="watchlist watchlist-auction"><i class="fa-solid fa-heart"></i></span>
+
+            <a href="{% url "edit_watchlist" auction.id %}">
+                {% if auction in watchlist %}
+                    <span class="watchlist watchlist-auction watchlist-added"><i class="fa-solid fa-heart"></i></span>
+                {% else %}
+                    <span class="watchlist watchlist-auction watchlist-removed"><i class="fa-solid fa-heart"></i></span>
+                {% endif %}
+            </a>
+
+
             <img class="auction-image" src="{{ auction.avatar }}" alt="{{ auction.title }}">
           </div>
           <div class="col-md-6">
+            <div class="pl-2 pr-2 pt-2">
+                {% include 'auctions/alerts.html' %}
+            </div>
             <div class="card-body">
+                {% if auction.status %}
+                <div class="row justify-content-between">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-primary btn-sm" onClick="window.location.reload();">
+                            <i class="fa-solid fa-arrows-rotate bids-info "></i> Refresh
+                        </button>
+                    </div>
+               
+                    <div class="col-auto">
+                        <h1 class="text-right ">
+                            
+                            <span class="current-bid">
+                                <small><strong>$</strong></small>{{ bid}}
+                            </span>
+                           
+                        </h1>
+                    </div>
+                </div>
+                
+                <div class="row justify-content-sm-between justify-content-center">
+                    <div class="col-auto">
+                        {% comment %} Number of bids {% endcomment %}
+                        <p class="text-muted bids-info ">Number of bids :<strong> {{ auction.bid_count }} </strong></p>
+                    </div>
+                    <div class="col-auto">
+                        {% comment %} Best bidder {% endcomment %}
+                        <p class="text-muted bids-info text-right"><strong>{{bidder}}</strong> is the best bidder</p>
+                    </div>
+                </div>
+                
+                <form action="{% url 'bid' auction.id %}" method="POST">
+                    {% csrf_token %}
+                    {{ bid_form }}
+
+                    <div class="row justify-content-center justify-content-sm-between justify-content-md-center justify-content-lg-between">
+                        <div class="col-auto">
+                            <p class="text-muted bids-info ">Time left :<strong> 1d 2h 30m</strong></p>
+                        </div>
+                        <div class="col-auto">
+                            <p class="text-muted bids-info text-right">Ends on <strong>2020-12-12 12:00:00</strong></p>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">Place bid</button>
+                </form>
+
+                    {% if request.user == auction.seller %}
+                    <form action="{% url 'close' auction.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-block mt-2">Close auction</button>
+                    </form>
+                    {% endif %}
+
+                    <hr class="mb-3 mt-4">
+                {% else %}
+                    <div class="row justify-content-center">
+                        <div class="col-auto">
+                            <p class="text-muted">Auction closed on <strong>{{auction.updated_at}}</strong>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="row justify-content-center">
+                        <div class="col-auto">
+                            {% if request.user == auction.buyer %}
+                            <p class="closed-bid text-center"> <strong>{{bidder}}</strong>, you won this auction and bought <strong>{{auction.title}}</strong> for <strong>${{bid}}</strong>
+                            </p> 
+                            {% elif request.user == auction.seller %}
+                            <p class="closed-bid text-center"> <strong>{{bidder}}</strong> bought this item for <strong>${{bid}}</strong></p> 
+                             </p>
+                             {% endif %}
+                        </div>
+                    </div>
+
+                    <hr class="mb-4 mt-3">
+                {% endif %}
+
+                
+
               <table class="table table-borderless">
                     <tbody>
                         <tr>
@@ -41,10 +132,6 @@
                             <th scope="row">Category</th>
                             <td>{{ auction.category }}</td>
                         <tr>
-                            <th scope="row">Price</th>
-                            <td>${{ auction.price }}</td>
-                        </tr>
-                        <tr>
                             <th scope="row">Created</th>
                             <td>{{ auction.created_at }}</td>
                         </tr>
@@ -54,12 +141,10 @@
                         </tr>
                     </tbody>
                 </table>
+            
             </div>
           </div>
-          
         </div>
-
-        
     </div>
 
 </div>
@@ -76,7 +161,7 @@
 
         <form class="comment-form mt-4" action="{% url 'new_comment' auction.id %}" method="POST">
             {% csrf_token %}
-            {{ comment_form}}
+            {{ comment_form }}
             <button type="submit"  class="btn btn-primary btn-block">Post Comment</button>
         </form>
 
@@ -84,9 +169,12 @@
 
     <div class="col-12 col-md-7 pb-4">
 
-        <h1 class="display-5">Comments</h1>
-        {% for comment in comments %}
+        <h2>Comments</h2>
 
+        <hr>
+
+        {% for comment in comments %}
+       
         <div class="d-flex justify-content-center py-2">
             <div class="comment-box py-2 px-2"> <span class="comment">{{ comment.comment }}</span>
                 <div class="d-flex justify-content-between py-1 pt-2">
@@ -96,21 +184,19 @@
             </div>
         </div>
         {% empty %}
-        <p>No comments yet...  </p>
-        <img src="{% static 'auctions/assets/empty.png' %}" alt="empty" width="100%">
+
+        <div class="row h-100">
+            <div class="col-md-12 my-auto">
+                <img class="img-responsive center-block d-block mx-auto mb-2" src="{% static 'auctions/assets/quotes.png' %}" alt="empty" width="10%">
+                <h5 class="text-comment text-center"><strong>No comments yet</strong> 
+                    <br> Be the first to share your thoughts!
+                </h5>
+            </div>
+        </div>
 
         {% endfor %}
     </div>
 </div>
 
-
-   
-
-
-
-    
 {% endblock %}
 
-{% block footer %}
-    <a href="/auctions">Back to auctions</a>
-{% endblock %}

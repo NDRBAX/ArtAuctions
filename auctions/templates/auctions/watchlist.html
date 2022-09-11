@@ -6,15 +6,15 @@ Watchlist
 {% endblock %}
 
 {% block body %}
-
-<div class="card mb-3" style="max-width: 100%;">
+{% for item in watchlist %} 
+<div class="card mb-4" style="max-width: 100%;">
     <div class="cart-item d-md-flex "><span class="remove-item"><i class="fa fa-times"></i></span></div>
-
+    
     <div class="row no-gutters">
-
+       
       <div class="col-md-2">
-        <span style="cursor:pointer" class="watchlist watchlist-auction"><i class="fa-solid fa-heart"></i></span>
-        <img class="auction-image" src="{% static 'auctions/assets/cover-1.jpg' %}" alt="{{ auction.title }}">
+        
+        <img class="auction-image" src="{{item.avatar}}" alt="{{ item.title }}">
       </div>
 
       <div class="col-md-10">
@@ -25,13 +25,13 @@ Watchlist
         
             <div class="row justify-content-between">
                 <div class="col-auto">
-                    <span class="nickname">Paesaggio - Arturo VERGAGNI</span>
+                    <span class="nickname">{{item.title}} by {{item.artist}}</span>
                 </div>
                 <div class="col-auto">
-                    <span class="clock"><i class="fas fa-portrait"></i></span><span>seller : logan</span>
+                    <span class="clock"><i class="fas fa-portrait"></i></span><span class="posted_at"><strong>Seller:</strong> {{item.seller}}</span>
                 </div>
                 <div class="col-auto">
-                    <span class="clock"><i class="fa-solid fa-clock"></i></span><span class="posted_at">Sept. 5, 2022, 2:45 p.m.</span>
+                    <span class="clock"><i class="fa-solid fa-clock"></i></span><span class="posted_at"><strong>Created at</strong> {{item.created_at}}</span>
                 </div>
             </div>
 
@@ -39,7 +39,7 @@ Watchlist
             
             <div class="row  justify-content-center py-3 px-4">
                 <div class="col-auto">
-                    <span style="overflow: hidden; display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;" class="comment">	Apparteneva a mia nonna. Mi raccontava che le era stato regalato. Lo regalò a sua volta alla figlia (mia madre). Il paesaggio è stato da sempre protagonista nella ricerca artistica, sia come ambientazione, come sfondo, ma anche come soggetto esso stesso. La descrizione naturalistica del paesaggio è stata una costante aspirazione per i pittori.</span>
+                    <span style="overflow: hidden; display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;" class="comment">{{item.description}}</span>
                 </div>
             </div>
 
@@ -48,22 +48,32 @@ Watchlist
             <div class="row justify-content-between">
 
                 <div class="col-auto">
-                    <span class="clock"><i class="fa-solid fa-circle-check"></i></span><span class="posted_at">Status : Active</span>
+                    {% if item.status %}
+                    <span class="clock status-active"><i class="fa-solid fa-circle-check"></i></span>
+                    <span class="posted_at"><strong>Bid status :</strong> Active</span>
+                    {% else %}
+                    <span class="clock status-closed"><i class="fas fa-times-circle"></i></span>
+                    <span class="posted_at"><strong>Bid status :</strong> Closed</span>
+                    {% endif %}
                 </div>
                 
                 <div class="col-auto">
-                    <span class="clock"><i class="fa-solid fa-hashtag"></i></span><span class="posted_at">Number of bids : Active</span>
+                    <span class="clock"><i class="fa-solid fa-hashtag"></i></span><span class="posted_at"><strong>Number of bids :</strong> {{item.bid_count}}</span>
                 </div>
                 
                 <div class="col-auto">
-                    <span class="clock"><i class="fa-solid fa-money-bill"></i></span><span class="posted_at">Best bid : Active</span>
+                    <span class="clock"><i class="fa-solid fa-money-bill"></i></span>
+                    {% if item.bid_count > 0 %}
+                    <span class="posted_at"><strong>Actual price:</strong> ${{item.price}}</span>
+                    {% else %}
+                    <span class="posted_at"><strong>Actual price:</strong> ${{item.open_price}}</span>
+                    {% endif %}
                 </div>
             </div>
         </div>
       </div>
 
-
     </div>
 </div>
-
+{% endfor %}
 {% endblock %}
