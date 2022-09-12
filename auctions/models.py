@@ -13,7 +13,7 @@ class Listing(models.Model):
     year = models.IntegerField(default=0)
     size = models.CharField(max_length=64, default="Unknown")
     avatar = models.URLField()
-    category = models.CharField(max_length=64, blank=True)
+    category = models.CharField(max_length=250, blank=True)         
     price = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True)
     open_price = models.DecimalField(max_digits=10, decimal_places=0, blank=True)
     bid_count = models.IntegerField(default=0)
