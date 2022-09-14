@@ -2,12 +2,10 @@ from django.contrib import admin
 from .models import *
 # Register your models here.
 class ListingAdmin(admin.ModelAdmin):
-    list_display = ("title", "seller", "price", "open_price", "bid_count", "created_at", "updated_at", "status", "buyer")
-    list_filter = ("seller", "created_at", "updated_at", "status", "buyer")
-    search_fields = ("title", "seller", "price", "open_price", "bid_count", "created_at", "updated_at", "status", "buyer")
-    ordering = ("title", "seller", "price", "open_price", "bid_count", "created_at", "updated_at", "status", "buyer")
-    filter_horizontal = ()
-    fieldsets = ()
+    list_display = ("title", "artist", "year", "size", "category", "price", "open_price", "bid_count", "status", "buyer")
+    list_filter = ("title", "artist", "year", "size", "category", "price", "open_price", "bid_count", "status", "buyer")
+    search_fields = ("title", "artist", "year", "size", "category", "price", "open_price", "bid_count", "status", "buyer")
+    list_per_page = 25
 
 class CommentAdmin(admin.ModelAdmin):
     list_display = ("user", "listing", "comment", "created_at")
