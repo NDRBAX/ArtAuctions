@@ -1,24 +1,24 @@
 import _datetime
 from django import forms 
-from multiselectfield import MultiSelectField
 
-# categories = (
-#             ("Antiques", "Antiques"),
-#             ("Drawing", "Drawing"),
-#             ("Watercolor", "Watercolor"),
-#             ("Design", "Design"),
-#             ("Miniature", "Miniature"),
-#             ("Painting", "Painting"),
-#             ("Photography", "Photography"),
-#             ("Sculpture", "Sculpture"),
-#             ("Prints", "Prints"),
-#             ("Oil", "Oil"),
-#             ("Acrylic", "Acrylic"),
-#             ("Original artwork", "Original artwork")
-#         )
+categories = (
+            ("Antiques", "Antiques"),
+            ("Drawing", "Drawing"),
+            ("Watercolor", "Watercolor"),
+            ("Design", "Design"),
+            ("Miniature", "Miniature"),
+            ("Painting", "Painting"),
+            ("Photography", "Photography"),
+            ("Sculpture", "Sculpture"),
+            ("Prints", "Prints"),
+            ("Oil", "Oil"),
+            ("Acrylic", "Acrylic"),
+            ("Original artwork", "Original artwork")
+        )
 
 def year_choices():
     return [(r,r) for r in range(_datetime.date.today().year, 1000 ,-1)]
+
 class ListingForm(forms.Form):
     title = forms.CharField(
         label="",
@@ -72,36 +72,26 @@ class ListingForm(forms.Form):
             "placeholder": "Starting bid"
         })
     )
-    category = MultiSelectField()
+    category = forms.MultipleChoiceField(
+        widget=forms.CheckboxSelectMultiple(
+            attrs={
+                "class": "form-check-input",
+                "id": "category",
+                "onclick": "maxCategorieChecked('category', this, 3)"
+             
+            }
+        ),
+        choices = categories,
+    )
 
-
-
-    # category = forms.MultipleChoiceField(
-    #     widget=forms.CheckboxSelectMultiple(),
-    #     choices = categories,
-    # )
-
-    # category = MultiSelectField(choices=categories,
-    #                             max_choices=3,
-    #                             max_length=3)
-
-    # def clean_category(self):
-    #     data = self.cleaned_data['category']
-    #     return ", ".join(data)
+ 
+    def clean_category(self):
+        data = self.cleaned_data['category']
+        return ", ".join(data)
     
-    # # when the user select three categories, others will be disabled
-    # def __init__(self, *args, **kwargs):
-    #     self.max_choices = 3
-    #     super(ListingForm, self).__init__(*args, **kwargs)
+    # disable others checkboxes when one is checked
+
     
-    # def clean(self):
-    #     cleaned_data = super(ListingForm, self).clean()
-    #     category = cleaned_data.get('category')
-    #     if len(category) > self.max_choices:
-    #         raise forms.ValidationError('You can select only 3 categories')
-    #     return cleaned_data
-    
-  
 
 
 class CommentForm(forms.Form):
