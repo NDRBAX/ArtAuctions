@@ -6,74 +6,82 @@ Watchlist
 {% endblock %}
 
 {% block body %}
+
 {% for item in watchlist %} 
-<div class="card mb-4" style="max-width: 100%;">
-    <div class="cart-item d-md-flex "><span class="remove-item"><i class="fa fa-times"></i></span></div>
-    
-    <div class="row no-gutters">
-       
-      <div class="col-md-2">
-        
-        <img class="auction-image" src="{{item.avatar}}" alt="{{ item.title }}">
-      </div>
-
-      <div class="col-md-10">
-        <div class="pl-2 pr-2 pt-2">
-            {% include 'auctions/alerts.html' %}
-        </div>
-        <div class="card-body">
-        
-            <div class="row justify-content-between">
-                <div class="col-auto">
-                    <span class="nickname">{{item.title}} by {{item.artist}}</span>
-                </div>
-                <div class="col-auto">
-                    <span class="clock"><i class="fas fa-portrait"></i></span><span class="posted_at"><strong>Seller:</strong> {{item.seller}}</span>
-                </div>
-                <div class="col-auto">
-                    <span class="clock"><i class="fa-solid fa-clock"></i></span><span class="posted_at"><strong>Created at</strong> {{item.created_at}}</span>
-                </div>
-            </div>
-
-            <hr class="mb-4 mt-3">
-            
-            <div class="row  justify-content-center py-3 px-4">
-                <div class="col-auto">
-                    <span style="overflow: hidden; display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;" class="comment">{{item.description}}</span>
-                </div>
-            </div>
-
-            <hr class="mb-4 mt-3">
-
-            <div class="row justify-content-between">
-
-                <div class="col-auto">
-                    {% if item.status %}
-                    <span class="clock status-active"><i class="fa-solid fa-circle-check"></i></span>
-                    <span class="posted_at"><strong>Bid status :</strong> Active</span>
-                    {% else %}
-                    <span class="clock status-closed"><i class="fas fa-times-circle"></i></span>
-                    <span class="posted_at"><strong>Bid status :</strong> Closed</span>
-                    {% endif %}
-                </div>
-                
-                <div class="col-auto">
-                    <span class="clock"><i class="fa-solid fa-hashtag"></i></span><span class="posted_at"><strong>Number of bids :</strong> {{item.bid_count}}</span>
-                </div>
-                
-                <div class="col-auto">
-                    <span class="clock"><i class="fa-solid fa-money-bill"></i></span>
-                    {% if item.bid_count > 0 %}
-                    <span class="posted_at"><strong>Actual price:</strong> ${{item.price}}</span>
-                    {% else %}
-                    <span class="posted_at"><strong>Actual price:</strong> ${{item.open_price}}</span>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-      </div>
-
+<div class="card mb-4 " style="max-width: 100%;">
+    <div class="cart-item d-md-flex ">
+        <a href="{% url "edit_watchlist" item.id %}">
+            <span class="remove-item"><i class="fa fa-times"></i></span>
+        </a>
     </div>
+    <a href="{% url 'show_auction' item.id %}" class="watchlist-link">
+        <div class="row no-gutters hr-hover">
+        
+        <div class="col-md-2">
+            
+            <img class="auction-image " src="{{item.avatar}}" alt="{{ item.title }}">
+        </div>
+
+        <div class="col-md-10">
+            <div class="pl-2 pr-2 pt-2">
+                {% include 'auctions/alerts.html' %}
+            </div>
+            <div class="card-body">
+            
+                <div class="row justify-content-between">
+                    <div class="col-auto">
+                        <span class="nickname">{{item.title}} by {{item.artist}}</span>
+                    </div>
+                    <div class="col-auto">
+                        <span class="clock nickname"><i class="fas fa-portrait"></i></span><span class="posted_at"><strong>Seller:</strong> {{item.seller}}</span>
+                    </div>
+                    <div class="col-auto">
+                        <span class="clock nickname"><i class="fa-solid fa-clock"></i></span><span class="posted_at"><strong>Created at</strong> {{item.created_at}}</span>
+                    </div>
+                </div>
+
+                <hr class="mb-4 mt-3"></hr>
+                
+                <div class="row  justify-content-center py-3 px-4">
+                    <div class="col-auto">
+                        <span style="overflow: hidden; display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;" class="comment">{{item.description}}</span>
+                    </div>
+                </div>
+
+                <hr class="mb-4 mt-3">
+
+                <div class="row justify-content-between">
+
+                    <div class="col-auto">
+                        {% if item.status %}
+                        <span class="clock status-active"><i class="fa-solid fa-circle-check"></i></span>
+                        <span class="posted_at"><strong>Bid status :</strong> Active</span>
+                        {% else %}
+                        <span class="clock status-closed"><i class="fas fa-times-circle"></i></span>
+                        <span class="posted_at"><strong>Bid status :</strong> Closed</span>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="col-auto">
+                        <span class="clock nickname"><i class="fa-solid fa-hashtag"></i></span><span class="posted_at"><strong>Number of bids :</strong> {{item.bid_count}}</span>
+                    </div>
+                    
+                    <div class="col-auto">
+                        <span class="clock status-active"><i class="fa-solid fa-money-bill"></i></span>
+                        {% if item.bid_count > 0 %}
+                        <span class="posted_at"><strong>Actual price:</strong><span class="status-active" style="font-size:20px; font-weight:700">&nbsp;${{item.price}}</span></span>
+                        {% else %}
+                        <span class="posted_at"><strong>Actual price:</strong><span class="status-active" style="font-size:20px; font-weight:700">&nbsp;${{item.open_price}}</span></span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div>
+    </a>
 </div>
+
 {% endfor %}
+
 {% endblock %}
