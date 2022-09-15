@@ -1,14 +1,20 @@
 body {
     padding-top: 60px;
-    height: 100%;
     background: white;
     font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 h1,
 h2 {
     font-weight: bold;
 }
+
+
+/* NAVBAR */
 
 .navbar-brand {
     font-family: "Six Caps", sans-serif;
@@ -34,7 +40,6 @@ h2 {
     z-index: -1;
     bottom: 0;
     right: 0;
-    height: 1800px;
 }
 
 .jumbotron-container {
@@ -50,8 +55,38 @@ h2 {
     padding: 60px 10vw 10px 10vw;
 }
 
-.overlay {
-    background: linear-gradient(to bottom, #3498db00 0%, white 35%);
+.screen {
+    padding: 30px 0 50px 0;
+}
+
+@media only screen and (max-width: 576px) {
+    .overlay {
+        background: linear-gradient(to bottom, #3498db00 0%, white 90vw);
+    }
+}
+
+@media only screen and (min-width: 576px) and (max-width: 768px) {
+    .overlay {
+        background: linear-gradient(to bottom, #3498db00 0%, white 60vw);
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+    .overlay {
+        background: linear-gradient(to bottom, #3498db00 0%, white 50vw);
+    }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+    .overlay {
+        background: linear-gradient(to bottom, #3498db00 0%, white 40vw);
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .overlay {
+        background: linear-gradient(to bottom, #3498db00 0%, white 25vw);
+    }
 }
 
 .auction-item {
@@ -61,14 +96,15 @@ h2 {
 .cover-image {
     position: absolute;
     overflow: hidden;
+    height: 100%;
     top: 0;
     left: 0;
     z-index: -2;
     right: 0;
 }
 
-.cvr {
-    width: 100%;
+.cover-section {
+    min-height: 4vh;
 }
 
 .row-25 {
@@ -78,11 +114,7 @@ h2 {
 
 .container-position {
     position: relative;
-    padding-top: 300px;
-}
-
-.slogan {
-    color: wheat;
+    padding-top: 270px;
 }
 
 
@@ -284,4 +316,66 @@ h2 {
 
 .status-closed {
     color: #dc3545;
+}
+
+
+/* FOOTER */
+
+footer {
+    color: grey;
+    font-size: 10px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-top: auto;
+    flex: 0 0 50px;
+}
+
+footer ul li {
+    list-style: none;
+    display: block;
+}
+
+footer ul li a,
+footer a {
+    text-decoration: none;
+    color: grey;
+}
+
+.social div .fa {
+    color: white;
+    font-size: 10px;
+    background: #3c3c3c79;
+    padding: 10px 15px;
+}
+
+.social div {
+    padding: 0px 2px;
+}
+
+.social div .fa:hover {
+    color: #3c3c3c;
+    background: white;
+    text-decoration: none;
+}
+
+.logo-part a {
+    color: white;
+    text-decoration: none;
+}
+
+footer h6 {
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+    margin-top: 10px;
+    text-transform: uppercase;
+}
+
+footer .slogan {
+    font-family: "Caveat", cursive;
+    font-size: 18px;
+    font-weight: 100;
+    line-height: 17px;
+    color: white;
 }
