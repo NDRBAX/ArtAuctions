@@ -134,6 +134,10 @@ h2 {
     box-shadow: 0 10px 10px grey;
 }
 
+.card-title-home {
+    font-weight: 600;
+}
+
 .badge {
     color: white;
 }
@@ -194,72 +198,6 @@ h2 {
     filter: brightness(0.8);
 }
 
-.card-title {
-    font-size: 20px;
-    font-weight: 600;
-    color: #000000;
-    margin-bottom: 0.5rem;
-}
-
-.card-text {
-    margin-bottom: 0.5rem;
-}
-
-.card-text {
-    font-size: 14px;
-    font-weight: 300;
-    color: #000000;
-}
-
-.card-text-2 {
-    font-size: 14px;
-    font-weight: 300;
-    color: #000000;
-    margin-bottom: 0.5rem;
-}
-
-.card-text-3 {
-    font-size: 14px;
-    font-weight: 300;
-    color: #000000;
-    margin-bottom: 0.5rem;
-}
-
-.card-text-4 {
-    font-size: 14px;
-    font-weight: 300;
-    color: #000000;
-    margin-bottom: 0.5rem;
-}
-
-.card-text-5 {
-    font-size: 14px;
-    font-weight: 300;
-    color: #000000;
-    margin-bottom: 0.5rem;
-}
-
-.card-text-6 {
-    font-size: 14px;
-    font-weight: 300;
-    color: #000000;
-    margin-bottom: 0.5rem;
-}
-
-.card-text-7 {
-    font-size: 14px;
-    font-weight: 300;
-    color: #000000;
-    margin-bottom: 0.5rem;
-}
-
-.card-text-8 {
-    font-size: 14px;
-    font-weight: 300;
-    color: #000000;
-    margin-bottom: 0.5rem;
-}
-
 .watchlist-modal {
     top: 20px;
     right: 50px;
@@ -290,7 +228,6 @@ h2 {
 }
 
 .watchlist:hover {
-    /* color: red; */
     transform: scale(1.6);
     text-shadow: -1px -1px 10px white;
 }
