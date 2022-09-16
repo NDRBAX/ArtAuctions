@@ -49,11 +49,19 @@
                 <div class="row justify-content-sm-between justify-content-center">
                     <div class="col-auto">
                         {% comment %} Number of bids {% endcomment %}
+                        {% if auction.bid_count == 0 %}
+                        <p class="text-muted bids-info ">There's no bids yet</p>
+                        {% else %}
                         <p class="text-muted bids-info ">Number of bids :<strong> {{ auction.bid_count }} </strong></p>
+                        {% endif %}
                     </div>
                     <div class="col-auto">
                         {% comment %} Best bidder {% endcomment %}
+                        {% if auction.bid_count == 0 %}
+                        <p class="text-muted bids-info ">Be the first to bid</p>
+                        {% else %}
                         <p class="text-muted bids-info text-right"><strong>{{bidder}}</strong> is the best bidder</p>
+                        {% endif %}
                     </div>
                 </div>
                 
@@ -63,11 +71,11 @@
 
                     <div class="row justify-content-center justify-content-sm-between justify-content-md-center justify-content-lg-between">
                         <div class="col-auto">
-                            <p class="text-muted bids-info ">Time left :<strong> 1d 2h 30m</strong></p>
+                            <p class="text-muted bids-info ">Last update:<strong> {{auction.updated_at}}</strong></p>
                         </div>
-                        <div class="col-auto">
-                            <p class="text-muted bids-info text-right">Ends on <strong>2020-12-12 12:00:00</strong></p>
-                        </div>
+                        {% comment %} <div class="col-auto">
+                            <p class="text-muted bids-info text-right">Updated: <strong>{{auction.updated_at}}</strong></p>
+                        </div> {% endcomment %}
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-block">Place bid</button>
@@ -95,8 +103,14 @@
                             <p class="closed-bid text-center"> <strong>{{bidder}}</strong>, you won this auction and bought <strong>{{auction.title}}</strong> for <strong>${{bid}}</strong>
                             </p> 
                             {% elif request.user == auction.seller %}
-                            <p class="closed-bid text-center"> <strong>{{bidder}}</strong> bought this item for <strong>${{bid}}</strong></p> 
-                             </p>
+                                {% if auction.bid_count == 0 %}
+                                <p class="closed-bid text-center"> <strong>{{auction.seller}}</strong>, you didn't sell <strong>{{auction.title}}</strong> because there's no bids !
+                                </p>
+                                {% else %}
+
+                               <p class="closed-bid text-center"> <strong>{{bidder}}</strong> bought this item for <strong>${{bid}}</strong></p>
+                                {% endif %} 
+                             
                              {% endif %}
                         </div>
                     </div>
