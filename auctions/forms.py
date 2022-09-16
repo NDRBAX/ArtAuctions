@@ -22,6 +22,7 @@ def year_choices():
 class ListingForm(forms.Form):
     title = forms.CharField(
         label="",
+        required=True,
         widget=forms.TextInput(attrs={
             "class": "form-control form-group",
             "placeholder": "Title"
@@ -29,6 +30,7 @@ class ListingForm(forms.Form):
     )
     description = forms.CharField(
         label="",
+        required=True,
         widget=forms.Textarea(attrs={
             "class": "form-control form-group",
             "placeholder": "Description"
@@ -37,6 +39,7 @@ class ListingForm(forms.Form):
     )
     size = forms.CharField(
         label="",
+        required=True,
         widget=forms.TextInput(attrs={
             "class": "form-control form-group",
             "placeholder": "Size"
@@ -44,6 +47,7 @@ class ListingForm(forms.Form):
     )
     artist = forms.CharField(
         label="",
+        required=True,
         widget=forms.TextInput(attrs={
             "class": "form-control form-group",
             "placeholder": "Artist"
@@ -51,6 +55,7 @@ class ListingForm(forms.Form):
     )
     year = forms.ChoiceField(
         label="",
+        required=True,
         widget=forms.Select(attrs={
             "class": "form-control form-group",
             "aria-describedby": "yearLabel"
@@ -60,6 +65,7 @@ class ListingForm(forms.Form):
     )
     avatar = forms.URLField(
         label="",
+        required=False,
         widget=forms.URLInput(attrs={
             "class": "form-control form-group",
             "placeholder": "Give a link to an image of the artwork"
@@ -67,12 +73,14 @@ class ListingForm(forms.Form):
     )
     open_price = forms.DecimalField(
         label="",
+        required=True,
         widget=forms.NumberInput(attrs={
             "class": "form-control form-group",
             "placeholder": "Starting bid"
         })
     )
     category = forms.MultipleChoiceField(
+        required=True,
         widget=forms.CheckboxSelectMultiple(
             attrs={
                 "class": "form-check-input",
@@ -88,11 +96,6 @@ class ListingForm(forms.Form):
     def clean_category(self):
         data = self.cleaned_data['category']
         return ", ".join(data)
-    
-    # disable others checkboxes when one is checked
-
-    
-
 
 class CommentForm(forms.Form):
     comment = forms.CharField(
