@@ -13,7 +13,7 @@ class Listing(models.Model):
     artist = models.CharField(max_length=64, default="Unknown")
     year = models.IntegerField(default=0)
     size = models.CharField(max_length=64, default="Unknown")
-    avatar = models.URLField(blank=True, default=" ")
+    avatar = models.URLField(blank=True, default="https://static.vecteezy.com/system/resources/previews/004/141/669/original/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg", max_length=300)
     category = models.CharField(max_length=250, blank=True)             
     price = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True)
     open_price = models.DecimalField(max_digits=10, decimal_places=0, blank=True)

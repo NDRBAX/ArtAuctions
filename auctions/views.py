@@ -227,12 +227,21 @@ def bid(request, id):
                 bid = request.POST["bid"]
                 new_bid = Bid(bidder = request.user, listing = Listing.objects.get(pk=id) , **form.cleaned_data)
                 starting_bid = Listing.objects.get(pk=id).open_price
+
+                if(auction.bid_count > 0):
+                        price = Bid.objects.filter(listing = auction).order_by("-bid").first().bid
+                else:
+                    price = auction.open_price
+
                 if "." in bid:
                     messages.error(request, "Please enter a whole number")
                     return HttpResponseRedirect(reverse("show_auction", kwargs={
                         "id" : id
                         }))
-                if int(bid) >= int(starting_bid) + int(starting_bid) * 0.05:
+                # check if bid_count>0
+                
+
+                if int(bid) >= int(price) + int(price) * 0.05:
                     new_bid.bidder, new_bid.bid = request.user, int(bid)
                     new_bid.save()
                     auction.bid_count += 1
@@ -243,13 +252,10 @@ def bid(request, id):
                         "id" : id
                         }))
                 else:
-                    if(auction.bid_count > 0):
-                        price = Bid.objects.filter(listing = auction).order_by("-bid").first().bid
-                    else:
-                        price = auction.open_price
+                    
                    
                     allowed_bid = int(price) + int(price) * 0.05
-                    allowed_bid = int(allowed_bid)
+                    allowed_bid = int(allowed_bid) +1
                     messages.error(request, f"Your bid must be at least 5% higher than the current price. The minimum bid is ${allowed_bid}")
                     return HttpResponseRedirect(reverse("show_auction", kwargs={
                         "id" : id
