@@ -35,6 +35,13 @@ An eBay-like e-commerce auction site that will allow users to post auction listi
 :heavy_check_mark: Bid and sell\
 :heavy_check_mark: Post comments
 
+<div align="center">
+<img src="./assets/preview-1.png" alt="Awesome CyberghostVPN Cli" height="250px" />
+<img src="./assets/preview-2.png" alt="Awesome CyberghostVPN Cli" height="250px" />
+<img src="./assets/preview-3.png" alt="Awesome CyberghostVPN Cli" height="250px" />
+<img src="./assets/preview-4.png" alt="Awesome CyberghostVPN Cli" height="250px" />
+</div>
+
 ## :rocket: Technologies
 
 The following tools were used in this project:
