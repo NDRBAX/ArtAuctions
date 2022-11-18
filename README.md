@@ -1,5 +1,5 @@
 <div align="center" id="top"> 
-  <img src="./auctions/static/auctions/assets/foxy.png" alt="Commerce" height="150px"/>
+  <img src="./auctions/static/auctions/assets/foxy.png" alt="Commerce" height="100px"/>
   <h1>Artauctions</h1>
 </div>
 
