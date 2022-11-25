@@ -63,10 +63,10 @@ $ python manage.py runserver
 
 ```
 
+Project logo - <a href="https://www.flaticon.com/free-icons/art-and-design" title="art and design icons">Art and design icons created by RA_IC0N21 - Flaticon</a>
+
 Made with :heart: by <a href="https://github.com/NDRBAX" target="_blank">NDRBAX</a>
 
 &#xa0;
-
-Project logo - <a href="https://www.flaticon.com/free-icons/art-and-design" title="art and design icons">Art and design icons created by RA_IC0N21 - Flaticon</a>
 
 <a href="#top">Back to top</a>
